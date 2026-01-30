@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعائیں - اسلامی ویب سائٹ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .dua-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.1);
+        }
+        
+        .dua-title {
+            font-family: 'Amiri', serif;
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 10px;
+        }
+        
+        .arabic-dua {
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            line-height: 3;
+            color: var(--primary);
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8f5f0 0%, #ffffff 100%);
+            border-radius: 15px;
+            border-right: 5px solid var(--secondary);
+        }
+        
+        .transliteration {
+            font-size: 1.2rem;
+            color: #555;
+            text-align: center;
+            font-style: italic;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+        
+        .translation-box {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .translation-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .translation-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-controls">
+            <!-- Language Dropdown -->
+            <div class="dropdown">
+                <button class="dropdown-btn">
+                    <span data-translate="language">زبان</span> ▼
+                </button>
+                <div class="dropdown-content">
+                    <button onclick="applyLanguage('ur')">اردو (Urdu)</button>
+                    <button onclick="applyLanguage('en')">English</button>
+                    <button onclick="applyLanguage('ar')">العربية (Arabic)</button>
+                    <button onclick="applyLanguage('id')">Bahasa Indonesia</button>
+                    <button onclick="applyLanguage('tr')">Türkçe (Turkish)</button>
+                    <button onclick="applyLanguage('fa')">فارسی (Persian)</button>
+                    <button onclick="applyLanguage('bn')">বাংলা (Bengali)</button>
+                    <button onclick="applyLanguage('ms')">Bahasa Melayu</button>
+                    <button onclick="applyLanguage('so')">Soomaali (Somali)</button>
+                    <button onclick="applyLanguage('ps')">پښتو (Pashto)</button>
+                    <button onclick="applyLanguage('ha')">Hausa</button>
+                </div>
+            </div>
+            
+            <!-- Theme Dropdown -->
+            <div class="dropdown">
+                <button class="dropdown-btn">
+                    <span data-translate="theme">تھیم</span> ▼
+                </button>
+                <div class="dropdown-content">
+                    <button onclick="applyTheme('green')" class="color-option">
+                        <span class="color-preview" style="background: #1a5f3f;"></span>
+                        Green
+                    </button>
+                    <button onclick="applyTheme('blue')" class="color-option">
+                        <span class="color-preview" style="background: #2c5aa0;"></span>
+                        Blue
+                    </button>
+                    <button onclick="applyTheme('purple')" class="color-option">
+                        <span class="color-preview" style="background: #6b2c91;"></span>
+                        Purple
+                    </button>
+                    <button onclick="applyTheme('teal')" class="color-option">
+                        <span class="color-preview" style="background: #16a085;"></span>
+                        Teal
+                    </button>
+                    <button onclick="applyTheme('orange')" class="color-option">
+                        <span class="color-preview" style="background: #d35400;"></span>
+                        Orange
+                    </button>
+                    <button onclick="applyTheme('red')" class="color-option">
+                        <span class="color-preview" style="background: #c0392b;"></span>
+                        Red
+                    </button>
+                    <button onclick="applyTheme('brown')" class="color-option">
+                        <span class="color-preview" style="background: #5d4037;"></span>
+                        Brown
+                    </button>
+                    <button onclick="applyTheme('indigo')" class="color-option">
+                        <span class="color-preview" style="background: #3f51b5;"></span>
+                        Indigo
+                    </button>
+                    <button onclick="applyTheme('pink')" class="color-option">
+                        <span class="color-preview" style="background: #ad1457;"></span>
+                        Pink
+                    </button>
+                    <button onclick="applyTheme('cyan')" class="color-option">
+                        <span class="color-preview" style="background: #0097a7;"></span>
+                        Cyan
+                    </button>
+                    <button onclick="applyTheme('lime')" class="color-option">
+                        <span class="color-preview" style="background: #7cb342;"></span>
+                        Lime
+                    </button>
+                    <button onclick="applyTheme('amber')" class="color-option">
+                        <span class="color-preview" style="background: #f57c00;"></span>
+                        Amber
+                    </button>
+                </div>
+            </div>
+        </div>
+        <h1 data-translate="siteName">☪ اسلامی ویب سائٹ</h1>
+        <p style="font-size: 1.2rem; margin-top: 0.5rem;" data-translate="greeting">السلام علیکم ورحمۃ اللہ وبرکاتہ</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html" data-translate="home">ہوم</a></li>
+            <li><a href="prayer-times.html" data-translate="prayerTimes">نماز کے اوقات</a></li>
+            <li><a href="pillars.html" data-translate="pillars">ارکانِ اسلام</a></li>
+            <li><a href="quran.html" data-translate="quran">قرآن مجید</a></li>
+            <li><a href="information.html" data-translate="information">اسلامی معلومات</a></li>
+            <li><a href="duas.html" class="active" data-translate="duas">دعائیں</a></li>
+            <li><a href="events.html" data-translate="events">تقریبات</a></li>
+            <li><a href="registration.html" data-translate="registration">رجسٹریشن</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 3rem;">روزمرہ کی دعائیں</h2>
+
+        <!-- Safar Ki Dua -->
+        <section class="dua-section">
+            <div class="dua-title">🚗 سفر کی دعا</div>
+            
+            <div class="arabic-dua">
+                سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَىٰ رَبِّنَا لَمُنقَلِبُونَ
+            </div>
+            
+            <div class="transliteration">
+                "Subhanal-ladhi sakhkhara lana hadha wa ma kunna lahu muqrinin, wa inna ila Rabbina lamunqalibun"
+            </div>
+            
+            <div class="translation-box">
+                <div class="translation-title">اردو ترجمہ:</div>
+                <div class="translation-text">
+                    پاک ہے وہ ذات جس نے ہمارے لیے اس (سواری) کو مسخر کر دیا حالانکہ ہم اس کو قابو میں کرنے کی طاقت نہیں رکھتے تھے اور بیشک ہم اپنے رب کی طرف پلٹنے والے ہیں۔
+                </div>
+            </div>
+            
+            <div class="translation-box">
+                <div class="translation-title">English Translation:</div>
+                <div class="translation-text">
+                    "Glory be to Him who has subjected this to us, and we could never have it (by our efforts). And verily, to Our Lord we indeed are to return!"
+                </div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #e8f5e9; border-radius: 10px;">
+                <strong>کب پڑھیں:</strong> جب آپ سفر کے لیے نکلیں، گاڑی یا کسی بھی سواری پر سوار ہوں۔
+            </div>
+        </section>
+
+        <!-- Nazar Ki Dua -->
+        <section class="dua-section">
+            <div class="dua-title">🧿 نظر نہ لگنے کی دعا</div>
+            
+            <div class="arabic-dua">
+                أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ
+            </div>
+            
+            <div class="transliteration">
+                "A'udhu bikalimatillahit-tammati min sharri ma khalaq"
+            </div>
+            
+            <div class="translation-box">
+                <div class="translation-title">اردو ترجمہ:</div>
+                <div class="translation-text">
+                    میں اللہ کے مکمل کلمات کی پناہ میں آتا ہوں ہر اس چیز کے شر سے جو اس نے پیدا کی ہے۔
+                </div>
+            </div>
+            
+            <div class="translation-box">
+                <div class="translation-title">English Translation:</div>
+                <div class="translation-text">
+                    "I seek refuge in the Perfect Words of Allah from the evil of what He has created."
+                </div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #e8f5e9; border-radius: 10px;">
+                <strong>کب پڑھیں:</strong> صبح و شام، خاص طور پر جب نظر بد کا خدشہ ہو۔
+            </div>
+        </section>
+
+        <!-- Additional Nazar Dua -->
+        <section class="dua-section">
+            <div class="dua-title">🛡️ نظر بد سے حفاظت کی دعا</div>
+            
+            <div class="arabic-dua">
+                بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ
+            </div>
+            
+            <div class="transliteration">
+                "Bismillahil-ladhi la yadurru ma'asmihi shay'un fil-ardi wa la fis-sama'i wa Huwas-Sami'ul-'Alim"
+            </div>
+            
+            <div class="translation-box">
+                <div class="translation-title">اردو ترجمہ:</div>
+                <div class="translation-text">
+                    اللہ کے نام کے ساتھ (شروع کرتا ہوں) جس کے نام کے ساتھ زمین اور آسمان کی کوئی چیز نقصان نہیں پہنچا سکتی، اور وہ سننے والا جاننے والا ہے۔
+                </div>
+            </div>
+            
+            <div class="translation-box">
+                <div class="translation-title">English Translation:</div>
+                <div class="translation-text">
+                    "In the Name of Allah, with Whose Name nothing on earth or in heaven can cause harm, and He is the All-Hearing, All-Knowing."
+                </div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #e8f5e9; border-radius: 10px;">
+                <strong>فضیلت:</strong> یہ دعا تین بار صبح و شام پڑھنے سے کوئی چیز نقصان نہیں پہنچا سکتی۔
+            </div>
+        </section>
+
+        <!-- Ma Sha Allah -->
+        <section class="dua-section">
+            <div class="dua-title">✨ ماشاءاللہ - بہترین حفاظت</div>
+            
+            <div class="arabic-dua">
+                مَا شَاءَ اللَّهُ لَا قُوَّةَ إِلَّا بِاللَّهِ
+            </div>
+            
+            <div class="transliteration">
+                "Ma sha Allahu la quwwata illa billah"
+            </div>
+            
+            <div class="translation-box">
+                <div class="translation-title">اردو ترجمہ:</div>
+                <div class="translation-text">
+                    جو اللہ نے چاہا (وہ ہوا)، کوئی طاقت نہیں مگر اللہ کے ساتھ۔
+                </div>
+            </div>
+            
+            <div class="translation-box">
+                <div class="translation-title">English Translation:</div>
+                <div class="translation-text">
+                    "What Allah wills (has occurred), there is no power except with Allah."
+                </div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #e8f5e9; border-radius: 10px;">
+                <strong>کب کہیں:</strong> جب آپ کو کوئی خوبصورت یا پسندیدہ چیز نظر آئے، یا کسی کی تعریف کرنی ہو۔
+            </div>
+        </section>
+
+        <a href="index.html" class="back-button">← واپس ہوم پیج پر</a>
+    </div>
+
+    <footer>
+        <p>اللہ تعالیٰ ہمیں دین کی سمجھ عطا فرمائے - آمین</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">© 2026 Islamic Knowledge Center</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

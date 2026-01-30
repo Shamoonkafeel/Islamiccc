@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقریبات - اسلامی ویب سائٹ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-controls">
+            <!-- Language Dropdown -->
+            <div class="dropdown">
+                <button class="dropdown-btn">
+                    <span data-translate="language">زبان</span> ▼
+                </button>
+                <div class="dropdown-content">
+                    <button onclick="applyLanguage('ur')">اردو (Urdu)</button>
+                    <button onclick="applyLanguage('en')">English</button>
+                    <button onclick="applyLanguage('ar')">العربية (Arabic)</button>
+                    <button onclick="applyLanguage('id')">Bahasa Indonesia</button>
+                    <button onclick="applyLanguage('tr')">Türkçe (Turkish)</button>
+                    <button onclick="applyLanguage('fa')">فارسی (Persian)</button>
+                    <button onclick="applyLanguage('bn')">বাংলা (Bengali)</button>
+                    <button onclick="applyLanguage('ms')">Bahasa Melayu</button>
+                    <button onclick="applyLanguage('so')">Soomaali (Somali)</button>
+                    <button onclick="applyLanguage('ps')">پښتو (Pashto)</button>
+                    <button onclick="applyLanguage('ha')">Hausa</button>
+                </div>
+            </div>
+            
+            <!-- Theme Dropdown -->
+            <div class="dropdown">
+                <button class="dropdown-btn">
+                    <span data-translate="theme">تھیم</span> ▼
+                </button>
+                <div class="dropdown-content">
+                    <button onclick="applyTheme('green')" class="color-option">
+                        <span class="color-preview" style="background: #1a5f3f;"></span>
+                        Green
+                    </button>
+                    <button onclick="applyTheme('blue')" class="color-option">
+                        <span class="color-preview" style="background: #2c5aa0;"></span>
+                        Blue
+                    </button>
+                    <button onclick="applyTheme('purple')" class="color-option">
+                        <span class="color-preview" style="background: #6b2c91;"></span>
+                        Purple
+                    </button>
+                    <button onclick="applyTheme('teal')" class="color-option">
+                        <span class="color-preview" style="background: #16a085;"></span>
+                        Teal
+                    </button>
+                    <button onclick="applyTheme('orange')" class="color-option">
+                        <span class="color-preview" style="background: #d35400;"></span>
+                        Orange
+                    </button>
+                    <button onclick="applyTheme('red')" class="color-option">
+                        <span class="color-preview" style="background: #c0392b;"></span>
+                        Red
+                    </button>
+                    <button onclick="applyTheme('brown')" class="color-option">
+                        <span class="color-preview" style="background: #5d4037;"></span>
+                        Brown
+                    </button>
+                    <button onclick="applyTheme('indigo')" class="color-option">
+                        <span class="color-preview" style="background: #3f51b5;"></span>
+                        Indigo
+                    </button>
+                    <button onclick="applyTheme('pink')" class="color-option">
+                        <span class="color-preview" style="background: #ad1457;"></span>
+                        Pink
+                    </button>
+                    <button onclick="applyTheme('cyan')" class="color-option">
+                        <span class="color-preview" style="background: #0097a7;"></span>
+                        Cyan
+                    </button>
+                    <button onclick="applyTheme('lime')" class="color-option">
+                        <span class="color-preview" style="background: #7cb342;"></span>
+                        Lime
+                    </button>
+                    <button onclick="applyTheme('amber')" class="color-option">
+                        <span class="color-preview" style="background: #f57c00;"></span>
+                        Amber
+                    </button>
+                </div>
+            </div>
+        </div>
+        <h1 data-translate="siteName">☪ اسلامی ویب سائٹ</h1>
+        <p style="font-size: 1.2rem; margin-top: 0.5rem;" data-translate="greeting">السلام علیکم ورحمۃ اللہ وبرکاتہ</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html" data-translate="home">ہوم</a></li>
+            <li><a href="prayer-times.html" data-translate="prayerTimes">نماز کے اوقات</a></li>
+            <li><a href="pillars.html" data-translate="pillars">ارکانِ اسلام</a></li>
+            <li><a href="quran.html" data-translate="quran">قرآن مجید</a></li>
+            <li><a href="information.html" data-translate="information">اسلامی معلومات</a></li>
+            <li><a href="duas.html" data-translate="duas">دعائیں</a></li>
+            <li><a href="courses.html">کورسز</a></li>
+            <li><a href="events.html" class="active" data-translate="events">تقریبات</a></li>
+            <li><a href="registration.html" data-translate="registration">رجسٹریشن</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section class="prayer-times">
+            <h2 data-translate="events">اسلامی تقریبات اور پروگرام</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 2rem;">
+                قریبی اسلامی تقریبات، محافل اور تعلیمی پروگرامز کی معلومات
+            </p>
+            
+            <div class="events-grid" id="eventsContainer">
+                <!-- Events will be dynamically loaded here -->
+            </div>
+            
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be dynamically loaded here -->
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>اللہ تعالیٰ ہمیں دین کی سمجھ عطا فرمائے - آمین</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">© 2026 Islamic Knowledge Center</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

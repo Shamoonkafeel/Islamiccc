@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دستیاب کورسز - اسلامی ویب سائٹ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .courses-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .courses-header h2 {
+            font-family: 'Amiri', serif;
+            color: var(--primary);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            border: 3px solid transparent;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border-color: var(--primary);
+        }
+        
+        .course-card.selected {
+            border-color: var(--secondary);
+            background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
+        }
+        
+        .course-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .course-title {
+            font-family: 'Amiri', serif;
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .course-subtitle {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .select-all-btn {
+            display: block;
+            margin: 0 auto 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .select-all-btn:hover {
+            background: var(--accent);
+            transform: scale(1.05);
+        }
+        
+        /* Popup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 2rem;
+            color: #999;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            background: #f0f0f0;
+            color: var(--primary);
+        }
+        
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-title {
+            font-family: 'Amiri', serif;
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-body {
+            line-height: 1.8;
+        }
+        
+        .detail-section {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border-right: 4px solid var(--primary);
+        }
+        
+        .detail-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        
+        .detail-text {
+            color: #555;
+            font-size: 1.05rem;
+        }
+        
+        .detail-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .detail-list li {
+            padding: 0.5rem 0;
+            padding-right: 1.5rem;
+            position: relative;
+        }
+        
+        .detail-list li:before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        @media (max-width: 992px) {
+            .courses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-controls">
+            <!-- Language Dropdown -->
+            <div class="dropdown">
+                <button class="dropdown-btn">
+                    <span data-translate="language">زبان</span> ▼
+                </button>
+                <div class="dropdown-content">
+                    <button onclick="applyLanguage('ur')">اردو (Urdu)</button>
+                    <button onclick="applyLanguage('en')">English</button>
+                    <button onclick="applyLanguage('ar')">العربية (Arabic)</button>
+                    <button onclick="applyLanguage('id')">Bahasa Indonesia</button>
+                    <button onclick="applyLanguage('tr')">Türkçe (Turkish)</button>
+                    <button onclick="applyLanguage('fa')">فارسی (Persian)</button>
+                    <button onclick="applyLanguage('bn')">বাংলা (Bengali)</button>
+                    <button onclick="applyLanguage('ms')">Bahasa Melayu</button>
+                    <button onclick="applyLanguage('so')">Soomaali (Somali)</button>
+                    <button onclick="applyLanguage('ps')">پښتو (Pashto)</button>
+                    <button onclick="applyLanguage('ha')">Hausa</button>
+                </div>
+            </div>
+            
+            <!-- Theme Dropdown -->
+            <div class="dropdown">
+                <button class="dropdown-btn">
+                    <span data-translate="theme">تھیم</span> ▼
+                </button>
+                <div class="dropdown-content">
+                    <button onclick="applyTheme('green')" class="color-option">
+                        <span class="color-preview" style="background: #1a5f3f;"></span>
+                        Green
+                    </button>
+                    <button onclick="applyTheme('blue')" class="color-option">
+                        <span class="color-preview" style="background: #2c5aa0;"></span>
+                        Blue
+                    </button>
+                    <button onclick="applyTheme('purple')" class="color-option">
+                        <span class="color-preview" style="background: #6b2c91;"></span>
+                        Purple
+                    </button>
+                    <button onclick="applyTheme('teal')" class="color-option">
+                        <span class="color-preview" style="background: #16a085;"></span>
+                        Teal
+                    </button>
+                    <button onclick="applyTheme('orange')" class="color-option">
+                        <span class="color-preview" style="background: #d35400;"></span>
+                        Orange
+                    </button>
+                    <button onclick="applyTheme('red')" class="color-option">
+                        <span class="color-preview" style="background: #c0392b;"></span>
+                        Red
+                    </button>
+                    <button onclick="applyTheme('brown')" class="color-option">
+                        <span class="color-preview" style="background: #5d4037;"></span>
+                        Brown
+                    </button>
+                    <button onclick="applyTheme('indigo')" class="color-option">
+                        <span class="color-preview" style="background: #3f51b5;"></span>
+                        Indigo
+                    </button>
+                    <button onclick="applyTheme('pink')" class="color-option">
+                        <span class="color-preview" style="background: #ad1457;"></span>
+                        Pink
+                    </button>
+                    <button onclick="applyTheme('cyan')" class="color-option">
+                        <span class="color-preview" style="background: #0097a7;"></span>
+                        Cyan
+                    </button>
+                    <button onclick="applyTheme('lime')" class="color-option">
+                        <span class="color-preview" style="background: #7cb342;"></span>
+                        Lime
+                    </button>
+                    <button onclick="applyTheme('amber')" class="color-option">
+                        <span class="color-preview" style="background: #f57c00;"></span>
+                        Amber
+                    </button>
+                </div>
+            </div>
+        </div>
+        <h1 data-translate="siteName">☪ اسلامی ویب سائٹ</h1>
+        <p style="font-size: 1.2rem; margin-top: 0.5rem;" data-translate="greeting">السلام علیکم ورحمۃ اللہ وبرکاتہ</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html" data-translate="home">ہوم</a></li>
+            <li><a href="prayer-times.html" data-translate="prayerTimes">نماز کے اوقات</a></li>
+            <li><a href="pillars.html" data-translate="pillars">ارکانِ اسلام</a></li>
+            <li><a href="quran.html" data-translate="quran">قرآن مجید</a></li>
+            <li><a href="information.html" data-translate="information">اسلامی معلومات</a></li>
+            <li><a href="duas.html" data-translate="duas">دعائیں</a></li>
+            <li><a href="courses.html" class="active">کورسز</a></li>
+            <li><a href="events.html" data-translate="events">تقریبات</a></li>
+            <li><a href="registration.html" data-translate="registration">رجسٹریشن</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="courses-header">
+            <h2>دستیاب کورسز</h2>
+            <p style="color: #666; font-size: 1.1rem;">اپنی دلچسپی کے مطابق کورس منتخب کریں</p>
+        </div>
+
+        <button class="select-all-btn" onclick="selectAllCourses()">✓ تمام کورسز منتخب کریں</button>
+
+        <div class="courses-grid">
+            <!-- Hifz-e-Quran -->
+            <div class="course-card selected" onclick="showCourseDetails('hifz')">
+                <div class="course-icon">📖</div>
+                <h3 class="course-title">حفظ قرآن</h3>
+                <p class="course-subtitle">قرآن حفظ کریں</p>
+            </div>
+
+            <!-- Tajweed -->
+            <div class="course-card selected" onclick="showCourseDetails('tajweed')">
+                <div class="course-icon">📚</div>
+                <h3 class="course-title">تجوید</h3>
+                <p class="course-subtitle">صحیح تلفظ کے ساتھ قرآن</p>
+            </div>
+
+            <!-- Quran Nazra -->
+            <div class="course-card selected" onclick="showCourseDetails('nazra')">
+                <div class="course-icon">📕</div>
+                <h3 class="course-title">قرآن ناظرہ</h3>
+                <p class="course-subtitle">بنیادی قرآن پڑھنا سیکھیں</p>
+            </div>
+
+            <!-- Tafseer -->
+            <div class="course-card selected" onclick="showCourseDetails('tafseer')">
+                <div class="course-icon">📘</div>
+                <h3 class="course-title">تفسیر</h3>
+                <p class="course-subtitle">قرآن کی تشریح</p>
+            </div>
+
+            <!-- Hadith -->
+            <div class="course-card selected" onclick="showCourseDetails('hadith')">
+                <div class="course-icon">📙</div>
+                <h3 class="course-title">حدیث</h3>
+                <p class="course-subtitle">نبی ﷺ کی احادیث</p>
+            </div>
+
+            <!-- Fiqh -->
+            <div class="course-card selected" onclick="showCourseDetails('fiqh')">
+                <div class="course-icon">⚖️</div>
+                <h3 class="course-title">فقہ</h3>
+                <p class="course-subtitle">اسلامی قوانین</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Popup -->
+    <div id="courseModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">×</span>
+            <div class="modal-header">
+                <div class="modal-icon" id="modalIcon"></div>
+                <h2 class="modal-title" id="modalTitle"></h2>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>اللہ تعالیٰ ہمیں دین کی سمجھ عطا فرمائے - آمین</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">© 2026 Islamic Knowledge Center</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Course details data
+        const courseDetails = {
+            hifz: {
+                icon: '📖',
+                title: 'حفظ قرآن',
+                description: 'قرآن پاک کو مکمل طور پر حفظ کرنے کا جامع کورس',
+                duration: '3-5 سال',
+                features: [
+                    'روزانہ 1-2 گھنٹے کی کلاسیں',
+                    'تجربہ کار حفاظ کرام کی رہنمائی',
+                    'باقاعدہ دورہ اور مراجعہ',
+                    'ماہانہ ٹیسٹ اور تشخیص',
+                    'آن لائن اور آف لائن دونوں آپشنز'
+                ],
+                prerequisites: 'قرآن ناظرہ مکمل ہونا ضروری ہے'
+            },
+            tajweed: {
+                icon: '📚',
+                title: 'تجوید',
+                description: 'قرآن کو صحیح تلفظ اور قواعد کے ساتھ پڑھنے کی تعلیم',
+                duration: '6-12 ماہ',
+                features: [
+                    'مخارج حروف کی مکمل تعلیم',
+                    'صفات اور احکام تجوید',
+                    'عملی مشق اور اصلاح',
+                    'سماعت اور تصحیح کے سیشن',
+                    'تجوید کی کتب کی تعلیم'
+                ],
+                prerequisites: 'قرآن پڑھنے کی بنیادی معلومات'
+            },
+            nazra: {
+                icon: '📕',
+                title: 'قرآن ناظرہ',
+                description: 'قرآن کریم پڑھنا شروع سے سیکھیں',
+                duration: '3-6 ماہ',
+                features: [
+                    'عربی حروف تہجی کی شناخت',
+                    'حرکات اور علامات کی پہچان',
+                    'آسان سے مشکل کی طرف تدریج',
+                    'روزانہ مشق اور ہوم ورک',
+                    'بچوں اور بڑوں دونوں کے لیے'
+                ],
+                prerequisites: 'کوئی پیشگی تعلیم ضروری نہیں'
+            },
+            tafseer: {
+                icon: '📘',
+                title: 'تفسیر',
+                description: 'قرآن کریم کی تفسیر اور معانی کی تعلیم',
+                duration: '1-2 سال',
+                features: [
+                    'آیات کی تفصیلی تشریح',
+                    'شان نزول اور سیاق و سباق',
+                    'مشہور مفسرین کی آراء',
+                    'اردو اور عربی دونوں میں',
+                    'عملی زندگی میں اطلاق'
+                ],
+                prerequisites: 'قرآن ناظرہ اور بنیادی عربی'
+            },
+            hadith: {
+                icon: '📙',
+                title: 'حدیث',
+                description: 'رسول اللہ ﷺ کی احادیث کا مطالعہ',
+                duration: '1 سال',
+                features: [
+                    'صحیح بخاری و مسلم کا مطالعہ',
+                    'اربعین نووی اور ریاض الصالحین',
+                    'احادیث کی سند اور درجات',
+                    'احادیث کی تشریح اور فوائد',
+                    'روزمرہ زندگی میں عمل'
+                ],
+                prerequisites: 'اسلامی بنیادی معلومات'
+            },
+            fiqh: {
+                icon: '⚖️',
+                title: 'فقہ',
+                description: 'اسلامی احکام اور قوانین کی تعلیم',
+                duration: '1-2 سال',
+                features: [
+                    'عبادات کے مسائل',
+                    'معاملات اور معاشرت',
+                    'حلال و حرام کے احکام',
+                    'معاصر مسائل کے حل',
+                    'چاروں فقہی مکاتب فکر'
+                ],
+                prerequisites: 'قرآن و حدیث کی بنیادی معلومات'
+            }
+        };
+
+        // Show course details in popup
+        function showCourseDetails(courseKey) {
+            const course = courseDetails[courseKey];
+            const modal = document.getElementById('courseModal');
+            
+            document.getElementById('modalIcon').textContent = course.icon;
+            document.getElementById('modalTitle').textContent = course.title;
+            
+            const featuresHtml = course.features.map(f => `<li>${f}</li>`).join('');
+            
+            document.getElementById('modalBody').innerHTML = `
+                <div class="detail-section">
+                    <div class="detail-title">📝 تفصیل</div>
+                    <div class="detail-text">${course.description}</div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="detail-title">⏰ مدت</div>
+                    <div class="detail-text">${course.duration}</div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="detail-title">✨ خصوصیات</div>
+                    <ul class="detail-list">${featuresHtml}</ul>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="detail-title">📋 ضروری شرائط</div>
+                    <div class="detail-text">${course.prerequisites}</div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('courseModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('courseModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Select all courses
+        function selectAllCourses() {
+            const cards = document.querySelectorAll('.course-card');
+            cards.forEach(card => {
+                card.classList.add('selected');
+            });
+        }
+
+        // Toggle course selection
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Don't toggle if clicking to show details
+                if (!e.target.closest('.course-card')) return;
+            });
+        });
+    </script>
+</body>
+</html>

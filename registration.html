@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رجسٹریشن - اسلامی ویب سائٹ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 95, 63, 0.1);
+        }
+
+        .submit-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(26, 95, 63, 0.3);
+        }
+
+        /* Success Modal */
+        .success-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success-modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .success-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .success-title {
+            font-family: 'Amiri', serif;
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .user-name {
+            font-family: 'Amiri', serif;
+            color: var(--secondary);
+            font-size: 2rem;
+            margin: 1rem 0;
+            font-weight: 700;
+        }
+
+        .dua-box {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border-right: 5px solid var(--primary);
+        }
+
+        .dua-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            line-height: 2.5;
+            margin-bottom: 1rem;
+        }
+
+        .dua-translation {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .close-modal-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal-btn:hover {
+            background: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .situation-note {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-controls">
+            <!-- Language Dropdown -->
+            <div class="dropdown">
+                <button class="dropdown-btn">
+                    <span data-translate="language">زبان</span> ▼
+                </button>
+                <div class="dropdown-content">
+                    <button onclick="applyLanguage('ur')">اردو (Urdu)</button>
+                    <button onclick="applyLanguage('en')">English</button>
+                    <button onclick="applyLanguage('ar')">العربية (Arabic)</button>
+                    <button onclick="applyLanguage('id')">Bahasa Indonesia</button>
+                    <button onclick="applyLanguage('tr')">Türkçe (Turkish)</button>
+                    <button onclick="applyLanguage('fa')">فارسی (Persian)</button>
+                    <button onclick="applyLanguage('bn')">বাংলা (Bengali)</button>
+                    <button onclick="applyLanguage('ms')">Bahasa Melayu</button>
+                    <button onclick="applyLanguage('so')">Soomaali (Somali)</button>
+                    <button onclick="applyLanguage('ps')">پښتو (Pashto)</button>
+                    <button onclick="applyLanguage('ha')">Hausa</button>
+                </div>
+            </div>
+            
+            <!-- Theme Dropdown -->
+            <div class="dropdown">
+                <button class="dropdown-btn">
+                    <span data-translate="theme">تھیم</span> ▼
+                </button>
+                <div class="dropdown-content">
+                    <button onclick="applyTheme('green')" class="color-option">
+                        <span class="color-preview" style="background: #1a5f3f;"></span>
+                        Green
+                    </button>
+                    <button onclick="applyTheme('blue')" class="color-option">
+                        <span class="color-preview" style="background: #2c5aa0;"></span>
+                        Blue
+                    </button>
+                    <button onclick="applyTheme('purple')" class="color-option">
+                        <span class="color-preview" style="background: #6b2c91;"></span>
+                        Purple
+                    </button>
+                    <button onclick="applyTheme('teal')" class="color-option">
+                        <span class="color-preview" style="background: #16a085;"></span>
+                        Teal
+                    </button>
+                    <button onclick="applyTheme('orange')" class="color-option">
+                        <span class="color-preview" style="background: #d35400;"></span>
+                        Orange
+                    </button>
+                    <button onclick="applyTheme('red')" class="color-option">
+                        <span class="color-preview" style="background: #c0392b;"></span>
+                        Red
+                    </button>
+                    <button onclick="applyTheme('brown')" class="color-option">
+                        <span class="color-preview" style="background: #5d4037;"></span>
+                        Brown
+                    </button>
+                    <button onclick="applyTheme('indigo')" class="color-option">
+                        <span class="color-preview" style="background: #3f51b5;"></span>
+                        Indigo
+                    </button>
+                    <button onclick="applyTheme('pink')" class="color-option">
+                        <span class="color-preview" style="background: #ad1457;"></span>
+                        Pink
+                    </button>
+                    <button onclick="applyTheme('cyan')" class="color-option">
+                        <span class="color-preview" style="background: #0097a7;"></span>
+                        Cyan
+                    </button>
+                    <button onclick="applyTheme('lime')" class="color-option">
+                        <span class="color-preview" style="background: #7cb342;"></span>
+                        Lime
+                    </button>
+                    <button onclick="applyTheme('amber')" class="color-option">
+                        <span class="color-preview" style="background: #f57c00;"></span>
+                        Amber
+                    </button>
+                </div>
+            </div>
+        </div>
+        <h1 data-translate="siteName">☪ اسلامی ویب سائٹ</h1>
+        <p style="font-size: 1.2rem; margin-top: 0.5rem;" data-translate="greeting">السلام علیکم ورحمۃ اللہ وبرکاتہ</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html" data-translate="home">ہوم</a></li>
+            <li><a href="prayer-times.html" data-translate="prayerTimes">نماز کے اوقات</a></li>
+            <li><a href="pillars.html" data-translate="pillars">ارکانِ اسلام</a></li>
+            <li><a href="quran.html" data-translate="quran">قرآن مجید</a></li>
+            <li><a href="information.html" data-translate="information">اسلامی معلومات</a></li>
+            <li><a href="duas.html" data-translate="duas">دعائیں</a></li>
+            <li><a href="courses.html">کورسز</a></li>
+            <li><a href="events.html" data-translate="events">تقریبات</a></li>
+            <li><a href="registration.html" class="active" data-translate="registration">رجسٹریشن</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">رجسٹریشن فارم</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 2rem;">
+                براہ کرم اپنی معلومات درج کریں
+            </p>
+
+            <form id="registrationForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label>پورا نام <span class="required">*</span></label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="مثال: محمد احمد">
+                </div>
+
+                <div class="form-group">
+                    <label>ای میل <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder="example@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label>فون نمبر <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+92 300 1234567">
+                </div>
+
+                <div class="form-group">
+                    <label>عمر</label>
+                    <input type="number" id="age" name="age" min="5" max="100" placeholder="عمر درج کریں">
+                </div>
+
+                <div class="form-group">
+                    <label>شہر</label>
+                    <input type="text" id="city" name="city" placeholder="اپنا شہر درج کریں">
+                </div>
+
+                <div class="form-group">
+                    <label>صورتحال (موجودہ حالت)</label>
+                    <select id="situation" name="situation">
+                        <option value="">منتخب کریں</option>
+                        <option value="student">طالب علم</option>
+                        <option value="employed">ملازم</option>
+                        <option value="business">کاروباری</option>
+                        <option value="housewife">گھریلو خاتون</option>
+                        <option value="retired">ریٹائرڈ</option>
+                        <option value="unemployed">بے روزگار</option>
+                        <option value="other">دیگر</option>
+                    </select>
+                    <div class="situation-note">
+                        <strong>نوٹ:</strong> آپ کی موجودہ صورتحال ہمیں بہتر خدمات فراہم کرنے میں مدد دے گی۔
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>پیغام یا تبصرہ</label>
+                    <textarea id="message" name="message" rows="4" placeholder="کوئی خاص بات یا سوال..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">رجسٹریشن مکمل کریں</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="success-modal">
+        <div class="success-content">
+            <div class="success-icon">✅</div>
+            <h2 class="success-title">جزاک اللہ خیراً</h2>
+            <p style="font-size: 1.2rem; color: #666; margin: 1rem 0;">
+                آپ کی رجسٹریشن کامیابی سے مکمل ہو گئی
+            </p>
+            <div class="user-name" id="userName"></div>
+            
+            <div class="dua-box">
+                <div class="dua-arabic">
+                    بَارَكَ اللَّهُ فِيكَ وَجَعَلَكَ مِنَ الصَّالِحِينَ
+                </div>
+                <div class="dua-translation">
+                    <strong>ترجمہ:</strong><br>
+                    اللہ تعالیٰ آپ میں برکت عطا فرمائے اور آپ کو نیک لوگوں میں شامل فرمائے
+                </div>
+            </div>
+
+            <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                <p style="color: #2e7d32; font-size: 1.1rem; line-height: 1.8;">
+                    ہم آپ کو جلد ہی ای میل کے ذریعے رابطہ کریں گے۔ اللہ پاک آپ کو علم میں اضافہ عطا فرمائے۔
+                </p>
+            </div>
+
+            <button class="close-modal-btn" onclick="closeSuccessModal()">ٹھیک ہے</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>اللہ تعالیٰ ہمیں دین کی سمجھ عطا فرمائے - آمین</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">© 2026 Islamic Knowledge Center</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const age = document.getElementById('age').value;
+            const city = document.getElementById('city').value;
+            const situation = document.getElementById('situation').value;
+            const message = document.getElementById('message').value;
+            
+            // Store in localStorage (for demo purposes)
+            const registration = {
+                fullName,
+                email,
+                phone,
+                age,
+                city,
+                situation,
+                message,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('lastRegistration', JSON.stringify(registration));
+            
+            // Show success modal with user's name
+            document.getElementById('userName').textContent = fullName;
+            document.getElementById('successModal').classList.add('active');
+            
+            // Reset form
+            document.getElementById('registrationForm').reset();
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('successModal');
+            if (event.target == modal) {
+                closeSuccessModal();
+            }
+        }
+    </script>
+</body>
+</html>
